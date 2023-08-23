@@ -1,35 +1,93 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState } from "react";
+import reactLogo from "./assets/react.svg";
+import viteLogo from "/vite.svg";
+import "./App.css";
 
-function App() {
-  const [count, setCount] = useState(0)
+export default function App() {
+  const [profileData, setProfileData] = useState([
+    { name: "carlos", email: "carlos@carlos.com" },
+  ]);
+
+  const [error, setError] = useState("");
+
+  const handleSubmit = (name, email) => {
+    if (!name.trim() || !email.trim()) {
+      setError("Need a valid name");
+    } else {
+      setProfileData((prev) => [...prev, { name, email }]);
+      setError("");
+    }
+  };
+
+  console.log(profileData);
 
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <Form onSubmit={handleSubmit} error={error} />
+      <Users profileData={profileData} />
     </>
-  )
+  );
 }
 
-export default App
+function Form({ onSubmit, error }) {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    onSubmit(name, email);
+    setEmail("");
+    setName("");
+  };
+
+  return (
+    <>
+      <h2>Sign Up</h2>
+      <form onSubmit={handleSubmit}>
+        <div className="first-input-container">
+          <div className="label">
+            <label htmlFor="name">Enter your name:</label>
+          </div>
+          <div>
+            <input
+              type="text"
+              id="name"
+              placeholder="John Doe"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+            />
+          </div>
+        </div>
+
+        {/* new input */}
+
+        <div>
+          <div className="label">
+            <label htmlFor="email">Enter your name:</label>
+          </div>
+          <div>
+            <input
+              type="email"
+              id="email"
+              placeholder="Johndoe@gmail.com"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+          </div>
+        </div>
+
+        {error && <h5 style={{ color: "red " }}>Both fields are required</h5>}
+        {/* submit button */}
+        <button type="submit">Signup!</button>
+      </form>
+    </>
+  );
+}
+
+function Users() {
+  return (
+    <>
+      <h2>Users:</h2>
+    </>
+  );
+}

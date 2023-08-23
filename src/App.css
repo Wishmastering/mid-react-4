@@ -1,0 +1,38 @@
+body {
+  background-color: antiquewhite;
+  font-family: sans-serif;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: start;
+  height: 100vh;
+}
+
+button {
+  display: flex;
+  margin: 0 auto;
+  justify-content: center;
+  margin-top: 15px;
+  width: 150px;
+  background-color: rgb(236, 127, 127);
+  border: none;
+  border-radius: 3px;
+  padding: 5px;
+  color: white;
+}
+
+input {
+  height: 30px;
+  width: 300px;
+  border-radius: 3px;
+  border: 1px solid black;
+}
+
+.label {
+  margin-bottom: 5px;
+}
+
+.first-input-container {
+  margin-bottom: 15px;
+}

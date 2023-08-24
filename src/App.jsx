@@ -1,11 +1,11 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import reactLogo from "./assets/react.svg";
 import viteLogo from "/vite.svg";
 import "./App.css";
 
 export default function App() {
   const [profileData, setProfileData] = useState([
-    { name: "carlos", email: "carlos@carlos.com" },
+    { name: "carlos", email: "carlos@carlos.com", id: 1 },
   ]);
 
   const [error, setError] = useState("");
@@ -14,9 +14,18 @@ export default function App() {
     if (!name.trim() || !email.trim()) {
       setError("Need a valid name");
     } else {
-      setProfileData((prev) => [...prev, { name, email }]);
+      setProfileData((prev) => [...prev, { name, email, id: prev.length + 1 }]);
       setError("");
     }
+  };
+
+  const handleUpdate = (userId, data) => {
+    setProfileData((prev) =>
+      prev.map((user) => {
+        if (userId === user.id) user.fetchId = data.id;
+        return user;
+      })
+    );
   };
 
   console.log(profileData);
@@ -24,7 +33,7 @@ export default function App() {
   return (
     <>
       <Form onSubmit={handleSubmit} error={error} />
-      <Users profileData={profileData} />
+      <Users profileData={profileData} handleUpdate={handleUpdate} />
     </>
   );
 }
@@ -84,10 +93,35 @@ function Form({ onSubmit, error }) {
   );
 }
 
-function Users() {
+function Users({ profileData, handleUpdate }) {
+  const postFetch = async (name, email, id) => {
+    const res = await fetch("https://jsonplaceholder.typicode.com/posts", {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json; charset=UTF-8",
+      },
+      body: JSON.stringify({ name, email }),
+    });
+    const data = await res.json();
+    console.log(data);
+    handleUpdate(id, data);
+  };
+
   return (
     <>
       <h2>Users:</h2>
+      <ul>
+        {profileData.map((user, index) => (
+          <h5
+            className="list"
+            key={user.id}
+            onClick={() => postFetch(user.name, user.email, user.id)}
+          >
+            {`User ${++index}: ${user.name} `}
+            {user.fetchId && `${user.fetchId}`}
+          </h5>
+        ))}
+      </ul>
     </>
   );
 }

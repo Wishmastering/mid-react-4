@@ -36,3 +36,7 @@ input {
 .first-input-container {
   margin-bottom: 15px;
 }
+
+.list {
+  text-decoration: underline;
+}

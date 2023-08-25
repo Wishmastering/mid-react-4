@@ -51,7 +51,7 @@ function Form({ onSubmit, error }) {
 
   return (
     <>
-      <h2>Sign Up</h2>
+      <h2>Sign Up!</h2>
       <form onSubmit={handleSubmit}>
         <div className="first-input-container">
           <div className="label">
